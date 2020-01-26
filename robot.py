@@ -87,6 +87,9 @@ if __name__=='__main__':
             r.stop()
             r.left_turn()
         elif command == 'right':
-            r.right_trun()
+            r.stop()
+            r.right_turn()
+        elif command == 'stop':
+            r.stop()
 
 GPIO.cleanup()
