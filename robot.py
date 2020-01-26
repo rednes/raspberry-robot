@@ -19,9 +19,14 @@ class ta7291:
         GPIO.output(self.gpio2, False)
 
     def negative(self):
-        # モーターを正回転する
+        # モーターを逆回転する
         GPIO.output(self.gpio1, False)
         GPIO.output(self.gpio2, True)
+
+    def newtral(self):
+        # モーターをストップさせる
+        GPIO.output(self.gpio1, False)
+        GPIO.output(self.gpio2, False)
 
 class robot:
     def __init__(self, l_motor, r_motor):
@@ -29,14 +34,20 @@ class robot:
         self.r_motor = r_motor
 
     def go(self):
-        # 左右のモーターを正回転する
         self.l_motor.positive()
+
+    def back(self):
+        self.l_motor.negative()
 
     def left_turn(self):
         self.r_motor.positive()
 
     def right_turn(self):
         self.r_motor.negative()
+
+    def stop(self):
+        self.l_motor.newtral()
+        self.r_motor.newtral()
 
 
 GPIO.setmode(GPIO.BCM)
@@ -60,11 +71,22 @@ if __name__=='__main__':
     #     r.go()
     #     time.sleep(second)
 
-    r.go()
-    time.sleep(5)
-    r.left_turn()
-    time.sleep(5)
-    r.right_turn()
-    time.sleep(5)
-    
+    while(True):
+        command = input('>>> ')
+
+        if command == 'quit':
+            r.stop()
+            break
+        elif command == 'go':
+            r.stop()
+            r.go()
+        elif command == 'back':
+            r.stop()
+            r.back()
+        elif command == 'left':
+            r.stop()
+            r.left_turn()
+        elif command == 'right':
+            r.right_trun()
+
 GPIO.cleanup()
